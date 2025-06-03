@@ -5,6 +5,7 @@ import About from "./Pages/About"
 import Contact from "./Pages/Contact"
 import Cart from "./Pages/Cart"
 import Footer from "./components/Footer"
+import View from "./Pages/View"
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
            <Route path="/about" Component={About}></Route>
            <Route path="/contact" Component={Contact}></Route>
            <Route path="/cart" Component={Cart}></Route>
+           <Route path="/view" Component={View}></Route>
        </Routes>
        <Footer/>
     </BrowserRouter>
