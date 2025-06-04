@@ -10,13 +10,23 @@ import { Link } from 'react-router-dom';
 const ProductList = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { items,loading } = useSelector((state:RootState)=>state.products);
+    const query = useSelector((state: RootState)=>state.search.query)
+    const selectedItems  = useSelector((state:RootState)=>state.selected.selectedItems)
     const ProductPerPage = 8;
     const [currentPage,setCurrentPage] = useState(1);
+    // let showProducts = [];
     // const navigate = useNavigate();
-    
+
     const totalPages = Math.ceil(items.length/ProductPerPage);
     const startIndex = (currentPage-1)*ProductPerPage;
     const currentProducts = items.slice(startIndex,startIndex+ProductPerPage); 
+
+    const filteredProduct = query ? items.filter(product =>
+      product.title.toLowerCase().includes(query.toLowerCase())
+      ) : selectedItems.length > 0 ? items.filter(product => {
+        // console.log("Product category:", product.category);
+        return selectedItems.includes(product.category.toLowerCase());
+      }) : currentProducts;
 
     const handleNext =()=> setCurrentPage((Prev)=>Math.min(Prev+1,totalPages))
     const handlePrev =()=> setCurrentPage((Prev)=>Math.max(Prev-1,1))
@@ -31,7 +41,7 @@ const ProductList = () => {
     <>
     
     <div className="h-fit w-[95%] flex flex-wrap gap-8 items-center justify-center">
-        {currentProducts.map((product)=>(
+        {filteredProduct.map((product)=>(
             <Link to='/view' state={{itemData:product}} key={product.id} className="w-1/3 md:w-1/5 h-fit text-center shadow hover:shadow-2xl rounded-lg" >
                 <img src={product.thumbnail} alt='product'></img>
                 <div className='font-semibold text-md pt-2'>{product.title}</div>
@@ -44,6 +54,7 @@ const ProductList = () => {
 
         ))}
     </div>
+    {query?<div></div>:
     <div className="flex items-center justify-center gap-4 my-10">
   <button
     onClick={handlePrev}
@@ -58,7 +69,7 @@ const ProductList = () => {
     onClick={handleNext}
     className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
     disabled={currentPage === totalPages}>Next</button>
-    </div>
+    </div> }
 
     
     </>

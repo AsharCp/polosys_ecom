@@ -8,12 +8,15 @@ interface CartItem{
     rating: number,
     stock: number,
     quantity: number,
+    cartcount: number
 }
 interface CartState{
     items:CartItem[];
+    cartCount: number;
 }
 const initialState: CartState = {
-    items:[]
+    items:[],
+    cartCount: 0,
 }
 
 const CartSlice = createSlice({
@@ -32,8 +35,8 @@ const CartSlice = createSlice({
             
             }
         },
-        updateQuantity:(state,acttion)=>{
-            const { itemId, newQuantity, operation }=acttion.payload;
+        updateQuantity:(state,action)=>{
+            const { itemId, newQuantity, operation }=action.payload;
             const item = state.items.find(item => item.id === itemId);
             if (item) {
                 if(operation==="increase"){
@@ -51,7 +54,10 @@ const CartSlice = createSlice({
             state.items = state.items.filter((item)=>item.id!==action.payload)
 
         },
+        countUpdate:(state)=>{
+             state.cartCount=state.items.length
+        },
         }})
 
-export const { addToCart, updateQuantity, removeItem } = CartSlice.actions;
+export const { addToCart, updateQuantity, removeItem, countUpdate } = CartSlice.actions;
 export default CartSlice.reducer

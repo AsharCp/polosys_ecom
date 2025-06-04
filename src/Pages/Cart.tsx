@@ -1,8 +1,8 @@
 import { useSelector,useDispatch } from "react-redux";
 import type { RootState } from "../Redux/Store/Store";
 import { useEffect, useState } from "react";
-import { updateQuantity } from "../Redux/Reducer/CartSlice";
-import { removeItem } from "../Redux/Reducer/CartSlice";
+import { countUpdate, updateQuantity } from "../Redux/Reducer/CartSlice";
+import { removeItem,} from "../Redux/Reducer/CartSlice";
 import { BsFillCartXFill } from "react-icons/bs";
 
 const Cart = () => {
@@ -10,6 +10,10 @@ const Cart = () => {
   const [total,setTotal] = useState(0)
   // const [quantityValue,setQuantityValue] = useState(0)
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(countUpdate());
+  }, [items])
+  
 
 
   useEffect(() => {
@@ -69,11 +73,11 @@ const Cart = () => {
             <div className="flex flex-col gap-0 justify-center px-6 py-4 space-y-2 sm:space-y-3 text-center sm:text-left">
               <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">{item.title}</h2>
               <p className="text-green-600 font-bold text-lg">Price: ₹{item.price}</p>
-              <div className="flex flex-row w-full gap-4 justify-center ">
+              <div className="flex flex-row w-full gap-4 justify-center sm:justify-start ">
                    <p className="font-semibold text-gray-700 text-lg">Rating: {item.rating} ★</p> |
                    <p className="font-semibold text-gray-700 text-lg">Stock: {item.stock}</p>
               </div>
-              <div className="flex flex-row w-full gap-4 justify-center">
+              <div className="flex flex-row w-full gap-4 justify-center sm:justify-start">
                     <div className="flex items-center gap-2">
                       <button onClick={()=>handleDecrese(item.id,item.quantity,item.stock)} className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-md text-lg font-bold text-gray-700 hover:bg-gray-300 transition"
                         aria-label="Decrease quantity">-
