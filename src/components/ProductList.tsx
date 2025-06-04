@@ -29,6 +29,7 @@ const ProductList = () => {
    
   return (
     <>
+    
     <div className="h-fit w-[95%] flex flex-wrap gap-8 items-center justify-center">
         {currentProducts.map((product)=>(
             <Link to='/view' state={{itemData:product}} key={product.id} className="w-1/3 md:w-1/5 h-fit text-center shadow hover:shadow-2xl rounded-lg" >

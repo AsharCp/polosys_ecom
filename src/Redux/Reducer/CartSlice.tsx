@@ -6,6 +6,7 @@ interface CartItem{
     thumbnail: string,
     price: number,
     rating: number,
+    stock: number,
     quantity: number,
 }
 interface CartState{
@@ -26,10 +27,31 @@ const CartSlice = createSlice({
               alert("Item already exist!")
             }
             else{
+            newItem.stock=newItem.stock-1;
             state.items.push(action.payload)
+            
             }
+        },
+        updateQuantity:(state,acttion)=>{
+            const { itemId, newQuantity, operation }=acttion.payload;
+            const item = state.items.find(item => item.id === itemId);
+            if (item) {
+                if(operation==="increase"){
+                    item.quantity = newQuantity;
+                    item.stock= item.stock-1;
+                }
+                else{
+                   item.quantity = newQuantity;
+                   item.stock= item.stock+1;
+                }
+                
+            }
+        },
+        removeItem:(state,action)=>{
+            state.items = state.items.filter((item)=>item.id!==action.payload)
+
         },
         }})
 
-export const { addToCart} = CartSlice.actions;
+export const { addToCart, updateQuantity, removeItem } = CartSlice.actions;
 export default CartSlice.reducer

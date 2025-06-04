@@ -1,4 +1,4 @@
-import Filter from "../components/filter"
+import Filter from "../components/Filter"
 import ProductList from "../components/ProductList"
 
 

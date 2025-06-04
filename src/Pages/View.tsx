@@ -2,26 +2,34 @@ import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../Redux/Reducer/CartSlice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const View = () => {
   const location = useLocation();
   const { itemData } = location.state || {};
   const dispatch =useDispatch();
   const [newQuantity, setnewQuantity] = useState(1)
+  const navigate = useNavigate();
 
   const handleAddToCart=()=>{
     dispatch(addToCart({...itemData,quantity: newQuantity,}));
+    navigate('/cart')
   }
 
   const clickDecrease=()=>{
     if(newQuantity!==1)
     {
       setnewQuantity(newQuantity-1)
+      itemData.stock=itemData.stock+1
     }
   }
   const clickIncrease=()=>{
-    if(itemData.stock>newQuantity){
+    if(itemData.stock>1){
       setnewQuantity(newQuantity+1)
+      itemData.stock=itemData.stock-1;
+    }
+    else{
+      alert("Out of stock")
     }
     
     
@@ -49,7 +57,7 @@ const View = () => {
           <div className="text-xl font-semibold text-green-700">₹{itemData.price}</div>
 
           <div className="text-sm text-gray-600">Brand: <span className="font-medium">{itemData.brand}</span></div>
-          <div className="text-sm text-gray-600">Stock: <span className="font-medium">{itemData.stock}</span></div>
+          <div className="text-sm text-gray-600">Stock: <span className="font-medium">{itemData.stock-1}</span></div>
           <div className="text-sm text-yellow-600 font-medium">Rating: {itemData.rating}★</div>
           <div className="flex items-center gap-2">
               <button onClick={clickDecrease} className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-md text-lg font-bold text-gray-700 hover:bg-gray-300 transition"
