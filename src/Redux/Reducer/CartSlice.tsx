@@ -1,5 +1,5 @@
 import { createSlice, } from "@reduxjs/toolkit";
-
+const savedCart = localStorage.getItem('cartAdd')
 interface CartItem{
     id: string,
     title: string,
@@ -15,7 +15,8 @@ interface CartState{
     cartCount: number;
 }
 const initialState: CartState = {
-    items:[],
+    // items:[],
+    items: savedCart ? JSON.parse(savedCart) : [],
     cartCount: 0,
 }
 
@@ -24,14 +25,21 @@ const CartSlice = createSlice({
     initialState,
     reducers:{
         addToCart:(state,action)=>{
+            console.log(action,'stets');
+            
             const newItem = action.payload
+            // console.log(newItem,"Check");
             if(state.items.find(item=>item.id===newItem.id))
             {
               alert("Item already exist!")
             }
             else{
-            newItem.stock=newItem.stock-1;
-            state.items.push(action.payload)
+            console.log(newItem.stock,"ASHAR1")
+            newItem.stock=newItem.stock-newItem.quantity;
+            console.log(newItem.stock,"ASHAR2")
+            state.items.push(newItem)
+            console.log(newItem.stock,"ASHAR3")
+            
             
             }
         },

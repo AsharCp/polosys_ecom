@@ -7,8 +7,13 @@ import { BsFillCartXFill } from "react-icons/bs";
 
 const Cart = () => {
   const items = useSelector((state: RootState) => state.cart.items);
+  useEffect(() => {
+    localStorage.setItem("cartAdd",JSON.stringify(items))
+  }, [items])
+  
   const [total,setTotal] = useState(0)
   // const [quantityValue,setQuantityValue] = useState(0)
+  console.log(items,"kkkkkk");
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(countUpdate());
@@ -86,7 +91,7 @@ const Cart = () => {
                       <button onClick={()=>handleIncrease(item.id,item.quantity+1,item.stock)} className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-md text-lg font-bold text-gray-700 hover:bg-gray-300 transition"
                         aria-label="Increase quantity">+</button>
                    </div>
-                   <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md transition-all" onClick={()=>handleRemove(item.id)}>Reove Item</button>
+                   <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-md transition-all" onClick={()=>handleRemove(item.id)}>Remove Item</button>
               </div>
               
               

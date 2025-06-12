@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
 
-interface Product {
+export interface Product {
     id: number,
     title: string;
     description: string,
@@ -12,6 +12,8 @@ interface Product {
     stock: number,
     brand: string,
     category: string,
+    heart:boolean
+    quantity: number
 }
 // slice state type
 interface ProductState {
